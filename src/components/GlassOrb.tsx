@@ -21,6 +21,17 @@ export function GlassOrb() {
   }, []);
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen && inputRef.current && !result && !isLoading) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
@@ -70,7 +81,8 @@ export function GlassOrb() {
             initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
             animate={{ opacity: 1, backdropFilter: "blur(30px)" }}
             exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            className="fixed inset-0 z-[99999] bg-[#1F3059]/90 flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto"
+            className="fixed inset-0 z-[99999] bg-[#1F3059]/90 flex flex-col items-center justify-start p-6 md:p-12 overflow-y-auto"
+            data-lenis-prevent
           >
             <button
               onClick={() => { setIsOpen(false); setTimeout(() => { setQuery(""); setResult(null); }, 300); }}
